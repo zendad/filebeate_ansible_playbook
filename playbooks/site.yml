@@ -1,0 +1,3 @@
+---
+include: filebeat-nodes.yml
+include: logstash-server.yml

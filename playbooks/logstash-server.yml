@@ -1,0 +1,7 @@
+---
+- name: Logstash Server
+  hosts: logstash-server
+  become: True
+
+  roles:
+      - { role: logstash.elk,              tags: ["logstash"] }

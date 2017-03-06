@@ -1,0 +1,70 @@
+---
+- name: Copy logstash nginx pattern.
+  template:
+    src: nginx
+    dest: "/opt/logstash/patterns/nginx"
+    owner: logstash
+    group: logstash
+    mode: 0644
+  notify: restart logstash
+  
+- name: Creates directory
+  file: path=/etc/pki/tls/certs state=directory owner=root group=root mode=0755 recurse=yes
+  
+- name: Creates directory
+  file: path=/etc/pki/tls/private state=directory owner=root group=root mode=0755 recurse=yes
+  
+- name: Copy logstash nginx pattern.
+  template:
+    src: 12-apache.conf
+    dest: "/etc/logstash/conf.d/12-apache.conf"
+    owner: logstash
+    group: logstash
+    mode: 0644
+  notify: restart logstash
+  
+- name: Copy logstash nginx pattern.
+  template:
+    src: 11-nginx.conf
+    dest: "/etc/logstash/conf.d/11-nginx.conf"
+    owner: logstash
+    group: logstash
+    mode: 0644
+  notify: restart logstash
+  
+- name: Copy logstash filebeat input file.
+  template:
+    src: 10-beats-input.conf
+    dest: "/etc/logstash/conf.d/10-beats-input.conf"
+    owner: logstash
+    group: logstash
+    mode: 0644
+  
+- name: Copy logstash elastic output file.
+  template:
+    src: 13-elasticsearch-output.conf
+    dest: "/etc/logstash/conf.d/13-elasticsearch-output.conf"
+    owner: logstash
+    group: logstash
+    mode: 0644
+  notify: restart logstash  
+
+- name: copy cert for filebeat.
+  template:
+    src: filebeat-forwarder.crt
+    dest: "/etc/pki/tls/certs/filebeat-forwarder.crt"
+    owner: root
+    group: root
+    mode: 0644
+  
+- name: copy cert key for filebeat.
+  template:
+    src: filebeat-forwarder.key
+    dest: "/etc/pki/tls/private/filebeat-forwarder.key"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart elasticsearch
+
+
+  

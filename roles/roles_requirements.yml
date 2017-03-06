@@ -1,0 +1,7 @@
+# elk role
+- role: filebeat.elk
+
+# filebeat role
+- role: dereck.filebeat
+
+

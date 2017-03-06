@@ -1,0 +1,31 @@
+---
+- name: Copy Filebeat configuration.
+  template:
+    src: filebeat.yml.j2
+    dest: "/etc/filebeat/filebeat.yml"
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart filebeat
+  
+- name: Creates directory
+  file: path=/etc/pki/tls/certs state=directory owner=root group=root mode=0755 recurse=yes
+
+- name: Creates directory
+  file: path=/etc/pki/tls/private state=directory owner=root group=root mode=0755 recurse=yes
+  
+- name: copy cert for filebeat.
+  template:
+    src: filebeat-forwarder.crt
+    dest: "/etc/pki/tls/certs/filebeat-forwarder.crt"
+    owner: root
+    group: root
+    mode: 0644
+  
+- name: copy cert key for filebeat.
+  template:
+    src: filebeat-forwarder.key
+    dest: "/etc/pki/tls/private/filebeat-forwarder.key"
+    owner: root
+    group: root
+    mode: 0644

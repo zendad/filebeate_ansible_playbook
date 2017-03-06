@@ -1,0 +1,8 @@
+---
+
+- name: Filebeat Nodes
+  hosts: filebeat-nodes
+  become: True
+
+  roles:
+      - { role: dereck.filebeat,              tags: ["filebeat"] }
